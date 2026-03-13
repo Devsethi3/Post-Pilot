@@ -2,10 +2,11 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
-    <section className="mx-auto w-full max-w-5xl">
+    <section className="mx-auto w-full max-w-5xl z-10">
       {/* Top Shades */}
       <div
         aria-hidden="true"
@@ -44,7 +45,7 @@ export function HeroSection() {
           )}
           href="#link"
         >
-          <span className="text-xs">shipped new features!</span>
+          <span className="text-xs">New features!</span>
           <span className="block h-5 border-l" />
 
           <HugeiconsIcon
@@ -59,22 +60,26 @@ export function HeroSection() {
             "text-shadow-[0_0px_50px_theme(--color-foreground/.2)]",
           )}
         >
-          Building Teams Help <br /> You Scale and Lead
+          The Simplest Way <br /> To Post on LinkedIn
         </h1>
 
-        <p className="fade-in slide-in-from-bottom-10 mx-auto max-w-md animate-in fill-mode-backwards text-center text-base text-foreground/80 tracking-wider delay-200 duration-500 ease-out sm:text-lg md:text-xl">
-          Conecting you with world-class talent <br /> to scale, innovate and
-          lead
+        <p className="fade-in slide-in-from-bottom-10 mx-auto max-w-lg animate-in fill-mode-backwards text-center text-base text-foreground/80 tracking-wider delay-200 duration-500 ease-out sm:text-base md:text-xl">
+          A minimal tool that authenticates with LinkedIn and lets you publish
+          posts instantly
         </p>
 
         <div className="fade-in slide-in-from-bottom-10 flex animate-in flex-row flex-wrap items-center justify-center gap-3 fill-mode-backwards pt-2 delay-300 duration-500 ease-out">
-          <Button className="rounded-full" size="lg" variant="secondary">
-            Book a Call
-          </Button>
-          <Button className="rounded-full" size="lg">
-            Get started{" "}
-            <HugeiconsIcon icon={ArrowRight01Icon} data-icon="inline-end" />
-          </Button>
+          <Link href={"/"}>
+            <Button size="lg" variant="secondary">
+              Get Started
+            </Button>
+          </Link>
+          <Link href={"/dashboard"}>
+            <Button size="lg">
+              Create Your Post
+              <HugeiconsIcon icon={ArrowRight01Icon} data-icon="inline-end" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

@@ -4,6 +4,9 @@ import { DecorIcon } from "@/components/ui/decor-icon";
 import {
   CommandIcon,
   DashboardBrowsingIcon,
+  Edit01FreeIcons,
+  Rocket01FreeIcons,
+  Shield01FreeIcons,
   TransactionHistoryIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react";
@@ -17,7 +20,6 @@ type FeatureType = {
 export function FeatureSection() {
   return (
     <div className="mx-auto max-w-5xl">
-
       <div className="relative">
         {/* Corner Icons */}
         <DecorIcon
@@ -73,21 +75,23 @@ function DashedLine({ className, ...props }: React.ComponentProps<"div">) {
     />
   );
 }
-
 const features: FeatureType[] = [
   {
-    title: "Auto-Save Everything",
-    icon: TransactionHistoryIcon,
-    description: "Write without worry, every time.",
+    title: "LinkedIn OAuth Login",
+    icon: Shield01FreeIcons,
+    description:
+      "Securely connect your LinkedIn account using OAuth authentication.",
   },
   {
-    title: "Drag-and-Drop Blocks",
-    icon: DashboardBrowsingIcon,
-    description: "Rearrange sections with the block editor.",
+    title: "Instant Post Publishing",
+    icon: Rocket01FreeIcons,
+    description:
+      "Write your content and publish directly to LinkedIn in seconds.",
   },
   {
-    title: "Keyboard Shortcuts",
-    icon: CommandIcon,
-    description: "Speed up your workflow with quick keys.",
+    title: "Clean Writing Interface",
+    icon: Edit01FreeIcons,
+    description:
+      "A distraction-free editor designed for quickly drafting LinkedIn posts.",
   },
 ];

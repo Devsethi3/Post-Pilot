@@ -127,3 +127,7 @@
     @apply font-sans;
   }
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

@@ -44,8 +44,8 @@ export default function DashboardPage() {
         <div>
           <h1 className="text-3xl font-bold">Dashboard</h1>
           <p className="mt-2 text-muted-foreground">
-            Welcome back, {session.user.name}! Create and manage your LinkedIn
-            posts.
+            Welcome back, {session.user.name.split(" ")[0]}! Create and manage
+            your LinkedIn posts.
           </p>
         </div>
 

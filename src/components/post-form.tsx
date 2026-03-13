@@ -114,6 +114,7 @@ export function PostForm({ onPostCreated }: PostFormProps) {
           </div>
           <Button
             type="submit"
+            size={"lg"}
             disabled={isSubmitting}
             className="w-full sm:w-auto"
           >
