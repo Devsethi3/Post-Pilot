@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
@@ -19,7 +19,6 @@ import {
   DashboardCircleIcon,
   Menu01Icon,
   Cancel01Icon,
-  Settings01Icon,
   Logout01Icon,
 } from "@hugeicons/core-free-icons";
 import { cn } from "@/lib/utils";
@@ -56,17 +55,34 @@ function UserAvatar({
   );
 }
 
+// Custom hook to handle mobile menu state with pathname changes
+function useMobileMenu(pathname: string) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentPathname, setCurrentPathname] = useState(pathname);
+
+  // Close menu when pathname changes
+  if (pathname !== currentPathname) {
+    setCurrentPathname(pathname);
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  }
+
+  const open = useCallback(() => setIsOpen(true), []);
+  const close = useCallback(() => setIsOpen(false), []);
+  const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
+
+  return { isOpen, open, close, toggle };
+}
+
 export function Navbar() {
   const { data: session, isPending } = useSession();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const mobileMenu = useMobileMenu(pathname);
 
+  // Prevent scroll when mobile menu is open
   useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (mobileMenuOpen) {
+    if (mobileMenu.isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -74,7 +90,12 @@ export function Navbar() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [mobileMenuOpen]);
+  }, [mobileMenu.isOpen]);
+
+  const handleSignOut = useCallback(() => {
+    signOut();
+    mobileMenu.close();
+  }, [mobileMenu]);
 
   return (
     <>
@@ -155,13 +176,13 @@ export function Navbar() {
             ) : session ? (
               <Button
                 variant="outline"
-                size="icon-lg"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-                aria-expanded={mobileMenuOpen}
+                size="icon"
+                onClick={mobileMenu.toggle}
+                aria-label={mobileMenu.isOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileMenu.isOpen}
               >
                 <HugeiconsIcon
-                  icon={mobileMenuOpen ? Cancel01Icon : Menu01Icon}
+                  icon={mobileMenu.isOpen ? Cancel01Icon : Menu01Icon}
                   className="h-5 w-5"
                 />
               </Button>
@@ -174,8 +195,8 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* Mobile Menu - Rendered outside header as a portal-like overlay */}
-      {session && mobileMenuOpen && (
+      {/* Mobile Menu */}
+      {session && mobileMenu.isOpen && (
         <div
           className="md:hidden fixed inset-0 z-[100]"
           style={{ top: "3.5rem" }}
@@ -183,11 +204,16 @@ export function Navbar() {
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={() => setMobileMenuOpen(false)}
-            aria-hidden="true"
+            onClick={mobileMenu.close}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") mobileMenu.close();
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label="Close menu"
           />
 
-          {/* Menu Panel - Using hardcoded white/dark colors */}
+          {/* Menu Panel */}
           <div className="absolute inset-x-0 top-0 border-t border-b shadow-xl bg-white dark:bg-neutral-950">
             <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col">
               {/* User Info */}
@@ -228,12 +254,9 @@ export function Navbar() {
               <div className="pt-4 border-t">
                 <Button
                   variant="outline"
-                  size={"lg"}
+                  size="lg"
                   className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
-                  onClick={() => {
-                    signOut();
-                    setMobileMenuOpen(false);
-                  }}
+                  onClick={handleSignOut}
                 >
                   <HugeiconsIcon icon={Logout01Icon} className="mr-2 h-4 w-4" />
                   Sign out

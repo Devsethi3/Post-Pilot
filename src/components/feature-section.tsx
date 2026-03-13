@@ -2,12 +2,9 @@ import { cn } from "@/lib/utils";
 import type React from "react";
 import { DecorIcon } from "@/components/ui/decor-icon";
 import {
-  CommandIcon,
-  DashboardBrowsingIcon,
   Edit01FreeIcons,
   Rocket01FreeIcons,
   Shield01FreeIcons,
-  TransactionHistoryIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon, IconSvgElement } from "@hugeicons/react";
 

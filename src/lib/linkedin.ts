@@ -20,10 +20,6 @@ interface LinkedInPostResponse {
   id: string;
 }
 
-interface LinkedInError {
-  message: string;
-  status: number;
-}
 
 export async function getLinkedInAccessToken(
   userId: string,
