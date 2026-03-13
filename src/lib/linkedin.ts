@@ -20,7 +20,6 @@ interface LinkedInPostResponse {
   id: string;
 }
 
-
 export async function getLinkedInAccessToken(
   userId: string,
 ): Promise<string | null> {
