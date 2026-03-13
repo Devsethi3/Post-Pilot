@@ -75,3 +75,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+// Combine the logic from this code 
